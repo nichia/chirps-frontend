@@ -8,7 +8,7 @@ const ListChirps = (props) => {
       <ul className="list-unstyled">
         {props.chirpList.map(chirp =>
           <li key={chirp.id}>
-            {chirp.id} -- {chirp.text}
+            {chirp.id} -- {chirp.text.toUpperCase()}
           </li>)}
       </ul>
     </div>
