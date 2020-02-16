@@ -52,7 +52,6 @@ class ChirpListContainer extends Component {
   }
 
   onAddChirp = (chirp) => {
-    debugger;
     fetch('http://localhost:3000/api/v1/chirps', {
       headers: {
         'Content-Type': 'application/json',
@@ -61,14 +60,42 @@ class ChirpListContainer extends Component {
       method: 'POST',
       body: JSON.stringify(chirp)
     })
+    .then(response => {
+      if (response.ok) { 
+        return response.json()  
+      }
+      throw response
+    })
+    .then(chirp => {
+      if (chirp.error) {
+        alert(chirp.errors)
+      } else {
+        console.log(chirp)
+        let newChirpList = [chirp, ...this.state.chirpList]
+        this.setState({
+          chirpList: newChirpList
+        })
+      }
+    })
+    .catch(err => {
+      if (err.json) {
+        err.json().then(errMsg => {
+          console.log('%cHTTP error:', 'color:red;', errMsg.text);
+          alert(errMsg.text)
+        })
+      } else {
+        console.log('%cError:', 'color:red;', err);
+        alert(err)
+      }
+    });
   };
 
   render() {
 
     return (
       <>
-        <ChirpInput onAddChirp={this.onAddChirp}/>
-        <ChirpList chirpList={this.state.chirpList} errorFetch={this.state.errorFetch}/>
+          <ChirpInput onAddChirp={this.onAddChirp}/>
+          <ChirpList chirpList={this.state.chirpList} errorFetch={this.state.errorFetch}/>
       </>
     );
   }

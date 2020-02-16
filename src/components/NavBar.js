@@ -1,11 +1,11 @@
 import React from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
+import { Navbar } from 'react-bootstrap'
 
 const NavBar = () => {
   return (
     <div>
-      <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">Chirps</NavbarBrand>
+      <Navbar bg="light">
+        <Navbar.Brand href="/">Bellbird</Navbar.Brand>
       </Navbar>
     </div>
   );

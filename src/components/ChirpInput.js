@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container } from 'reactstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 
 class ChirpInput extends Component {
  
@@ -25,9 +25,14 @@ class ChirpInput extends Component {
     return (
       <Container>
         <form onSubmit={this.handleSubmit}>
-          <label>Input Chirp Text: </label>
-          <input type='text' placeholder='Name' value={this.state.text} name="text" onChange={this.handleChange}/><br/>
-          <input type="submit"/>
+          <Form.Group>
+            <Form.Label>Input chirp text:</Form.Label>
+            <Form.Control as="textarea" rows="2" maxLength="140" value={this.state.text} name="text" onChange={this.handleChange} required/>
+            <Form.Text className="text-muted">
+              Enter text post of 140 characters or less.
+            </Form.Text>
+          </Form.Group>
+          <Button variant="outline-primary" type="submit">Submit</Button>
         </form>
       </Container>
     )
