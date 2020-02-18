@@ -24,7 +24,7 @@ class ChirpInput extends Component {
   render() {
     return (
       <Container>
-        <form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           <Form.Group>
             <Form.Label>Input chirp text:</Form.Label>
             <Form.Control as="textarea" rows="2" maxLength="140" value={this.state.text} name="text" onChange={this.handleChange} required/>
@@ -33,7 +33,7 @@ class ChirpInput extends Component {
             </Form.Text>
           </Form.Group>
           <Button variant="outline-primary" type="submit">Submit</Button>
-        </form>
+        </Form>
       </Container>
     )
   }

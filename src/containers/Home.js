@@ -1,0 +1,114 @@
+import React, { Component } from 'react';
+import HomeHeader from '../components/HomeHeader';
+import { Form } from 'react-bootstrap';
+
+class Home extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      userList: [],
+      errorFetch: false
+    }
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3000/api/v1/users', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) { 
+        return response.json()  
+      }
+      throw response
+    })
+    .then(data => {
+      console.log("%cData:", 'color:blue', data);
+
+      this.setState({
+        userList: data,
+        errorFetch: false
+      });
+    })
+    .catch(err => {
+      if (err.json) {
+        err.json().then(errMsg => {
+          console.log('%cHTTP error:', 'color:red;', errMsg);
+
+          this.setState({
+            errorFetch: true
+          });
+        })
+      } else {
+        console.log('%cError:', 'color:red;', err);
+
+        this.setState({
+          errorFetch: true
+        });
+      }
+    });
+  }
+  
+  handleSubmit = (event) => {
+    event.preventDefault()
+    this.props.onsetCurrentUser(this.state)
+  }
+  
+  handleChange = (event) => {
+    console.log(event.target.value)
+    this.props.onSetCurrentUser(event.target.value);
+  }
+
+  renderUserList() {
+    // Map through user objects
+    const userListInfo = this.state.userList.map( user => {
+      return (
+        <option value={user.id} key={user.id} id={user.id}>
+          {user.firstname} {user.lastname}
+        </option>
+      )
+    });
+    return userListInfo;
+  };
+
+  greetCurrentUser() {
+    if (this.props.currentUser.id) {
+      const username = this.props.currentUser.firstname
+      return (
+        <div>
+          Welcome back, {username}!
+          <p>You can navigate to Chirp Index to view and add new chirps</p>
+        </div>
+      )
+    }
+  }
+
+  render() {
+    
+    return (
+      <>
+        <div>
+          <HomeHeader />
+        </div>
+        <hr />
+        <div>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Select your name</Form.Label>
+              <Form.Control as="select" multiple value={this.state.userList} name="user" onChange={this.handleChange}>
+                {this.renderUserList()}
+              </Form.Control>
+            </Form.Group>
+          </Form>
+          <br/>
+          {this.greetCurrentUser()}
+        </div>
+      </>
+    );
+  }
+}
+
+export default Home;

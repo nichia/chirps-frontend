@@ -4,8 +4,8 @@ import ChirpInput from '../components/ChirpInput';
 
 class ChirpListContainer extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       chirpList: [],
@@ -14,9 +14,20 @@ class ChirpListContainer extends Component {
   }
 
   componentDidMount() {
-    
+    // retrieve currentUser from local storage if currentUser has not be set
+    if (!this.props.currentUser.id) {
+      let user = ''
+      if (localStorage && localStorage.getItem('user')) {
+        user = JSON.parse(localStorage.getItem('user'));
+      }
+      this.props.onSetCurrentUser(user.id);
+    }
+
     fetch('http://localhost:3000/api/v1/chirps', {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
     .then(response => {
       if (response.ok) { 
@@ -94,8 +105,8 @@ class ChirpListContainer extends Component {
 
     return (
       <>
-          <ChirpInput onAddChirp={this.onAddChirp}/>
-          <ChirpList chirpList={this.state.chirpList} errorFetch={this.state.errorFetch}/>
+        <ChirpInput onAddChirp={this.onAddChirp}/>
+        <ChirpList chirpList={this.state.chirpList} errorFetch={this.state.errorFetch} currentUser={this.props.currentUser} onToggleUpvotes={this.props.onToggleUpvotes}/>
       </>
     );
   }
