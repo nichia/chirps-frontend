@@ -51,7 +51,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <NavBar/>
+        <NavBar currentUser={this.state.currentUser} />
           <Switch>
             <Route exact path="/" 
               render={(routerProps) => <Home {...routerProps} onSetCurrentUser={this.onSetCurrentUser} currentUser={this.state.currentUser}/>} >

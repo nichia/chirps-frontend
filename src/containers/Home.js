@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import HomeHeader from '../components/HomeHeader';
-import { Form } from 'react-bootstrap';
+import { Alert, Form } from 'react-bootstrap';
 
 class Home extends Component {
   constructor(props) {
@@ -13,17 +13,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-
-    // retrieve currentUser from local storage if currentUser not found
-    if (!this.props.currentUser.id) {
-      let user = ''
-      if (localStorage && localStorage.getItem('user')) {
-        user = JSON.parse(localStorage.getItem('user'));
-      }
-      this.props.onSetCurrentUser(user.id);
-    }
-
-
     fetch('http://localhost:3000/api/v1/users', {
       method: 'GET',
       headers: {
@@ -61,7 +50,16 @@ class Home extends Component {
         });
       }
     });
-    
+
+    // retrieve currentUser from local storage if currentUser not found
+    if (!this.props.currentUser.id) {
+
+      let user = ''
+      if (localStorage && localStorage.getItem('user')) {
+        user = JSON.parse(localStorage.getItem('user'));
+      }
+      this.props.onSetCurrentUser(user.id);
+    }
   }
   
   handleSubmit = (event) => {
@@ -96,6 +94,31 @@ class Home extends Component {
       )
     }
   }
+  
+  listUsers() {
+    if (this.state.errorFetch) {
+      return (
+        <>
+          <Alert color="danger">
+            Error fetching data from server. Please try again later.
+          </Alert>
+        </>
+      )
+    } else {
+      return (
+        <>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group>
+            <Form.Label>Select your name</Form.Label>
+            <Form.Control as="select" multiple value={this.state.userList} name="user" onChange={this.handleChange}>
+              {this.renderUserList()}
+            </Form.Control>
+          </Form.Group>
+        </Form>
+        </>
+      )
+    }
+  }
 
   render() {
     
@@ -106,14 +129,7 @@ class Home extends Component {
         </div>
         <hr />
         <div>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Group>
-              <Form.Label>Select your name</Form.Label>
-              <Form.Control as="select" multiple value={this.state.userList} name="user" onChange={this.handleChange}>
-                {this.renderUserList()}
-              </Form.Control>
-            </Form.Group>
-          </Form>
+          {this.listUsers()}
           {this.greetCurrentUser()}
         </div>
       </>

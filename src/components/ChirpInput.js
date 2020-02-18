@@ -32,7 +32,7 @@ class ChirpInput extends Component {
               Enter text post of 140 characters or less.
             </Form.Text>
           </Form.Group>
-          <Button variant="outline-primary" type="submit">Submit</Button>
+          <Button variant="dark" type="submit">Submit</Button>
         </Form>
       </Container>
     )

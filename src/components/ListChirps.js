@@ -75,6 +75,7 @@ const ListChirps = (props) => {
       console.log(error);
     });
   }
+  
   return (
     <div>
       <h4>Chirps</h4>
