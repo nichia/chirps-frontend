@@ -13,6 +13,17 @@ class Home extends Component {
   }
 
   componentDidMount() {
+
+    // retrieve currentUser from local storage if currentUser not found
+    if (!this.props.currentUser.id) {
+      let user = ''
+      if (localStorage && localStorage.getItem('user')) {
+        user = JSON.parse(localStorage.getItem('user'));
+      }
+      this.props.onSetCurrentUser(user.id);
+    }
+
+
     fetch('http://localhost:3000/api/v1/users', {
       method: 'GET',
       headers: {
@@ -50,6 +61,7 @@ class Home extends Component {
         });
       }
     });
+    
   }
   
   handleSubmit = (event) => {
@@ -58,7 +70,6 @@ class Home extends Component {
   }
   
   handleChange = (event) => {
-    console.log(event.target.value)
     this.props.onSetCurrentUser(event.target.value);
   }
 
@@ -103,7 +114,6 @@ class Home extends Component {
               </Form.Control>
             </Form.Group>
           </Form>
-          <br/>
           {this.greetCurrentUser()}
         </div>
       </>

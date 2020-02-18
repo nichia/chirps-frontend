@@ -34,6 +34,9 @@ class App extends Component {
         JSON.stringify(this.state.currentUser));
       })
     })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
   onToggleUpvotes = (user) => {

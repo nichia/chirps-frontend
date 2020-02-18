@@ -44,6 +44,9 @@ const ListChirps = (props) => {
     .then(user => {
       onToggleUpvotes(user)
     })
+    .catch(error => {
+      console.log(error);
+    });
   }
   
   const removeFromUpvotes =  (chirp) => {
@@ -68,6 +71,9 @@ const ListChirps = (props) => {
     .then(user => {
       onToggleUpvotes(user)
     })
+    .catch(error => {
+      console.log(error);
+    });
   }
   return (
     <div>

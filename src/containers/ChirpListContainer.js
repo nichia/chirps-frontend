@@ -14,7 +14,7 @@ class ChirpListContainer extends Component {
   }
 
   componentDidMount() {
-    // retrieve currentUser from local storage if currentUser has not be set
+    // retrieve currentUser from local storage if currentUser not found
     if (!this.props.currentUser.id) {
       let user = ''
       if (localStorage && localStorage.getItem('user')) {
@@ -36,7 +36,7 @@ class ChirpListContainer extends Component {
       throw response
     })
     .then(data => {
-      console.log("%cData:", 'color:blue', data);
+      console.log("%cChirpList Data:", 'color:blue', data);
 
       this.setState({
         chirpList: data,
@@ -81,7 +81,7 @@ class ChirpListContainer extends Component {
       if (chirp.error) {
         alert(chirp.errors)
       } else {
-        console.log(chirp)
+        console.log("Added Chirp: ", chirp)
         let newChirpList = [chirp, ...this.state.chirpList]
         this.setState({
           chirpList: newChirpList

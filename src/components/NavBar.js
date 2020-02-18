@@ -8,7 +8,7 @@ const NavBar = () => {
         <Navbar.Brand href="/">Bellbird</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/index">Chirps</Nav.Link>
+          <Nav.Link href="/index">Chirp Index</Nav.Link>
         </Nav>
       </Navbar>
     </div>
