@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import HomeHeader from '../components/HomeHeader';
-import { Alert, Form } from 'react-bootstrap';
+import { Alert, Container, Form } from 'react-bootstrap';
 
 class Home extends Component {
   constructor(props) {
@@ -128,10 +128,10 @@ class Home extends Component {
           <HomeHeader />
         </div>
         <hr />
-        <div>
+        <Container>
           {this.listUsers()}
           {this.greetCurrentUser()}
-        </div>
+        </Container>
       </>
     );
   }
