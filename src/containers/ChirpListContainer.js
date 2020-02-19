@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ChirpList from '../components/ChirpList';
 import ChirpInput from '../components/ChirpInput';
+import { Container } from 'react-bootstrap';
 
 class ChirpListContainer extends Component {
 
@@ -9,7 +10,8 @@ class ChirpListContainer extends Component {
 
     this.state = {
       chirpList: [],
-      errorFetch: false
+      errorFetch: false,
+      sortBy: 'r' // sortBy: 't':top upvotes, 'r':recent
     }
   }
 
@@ -23,7 +25,11 @@ class ChirpListContainer extends Component {
       this.props.onSetCurrentUser(user.id);
     }
 
-    fetch('http://localhost:3000/api/v1/chirps', {
+    this.fetchChirps();
+  }
+
+  fetchChirps() {
+    fetch(`http://localhost:3000/api/v1/chirps?sort_by=${this.state.sortBy}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -37,7 +43,7 @@ class ChirpListContainer extends Component {
     })
     .then(data => {
       console.log("%cChirpList Data:", 'color:blue', data);
-
+  
       this.setState({
         chirpList: data,
         errorFetch: false
@@ -47,14 +53,14 @@ class ChirpListContainer extends Component {
       if (err.json) {
         err.json().then(errMsg => {
           console.log('%cHTTP error:', 'color:red;', errMsg);
-
+  
           this.setState({
             errorFetch: true
           });
         })
       } else {
         console.log('%cError:', 'color:red;', err);
-
+  
         this.setState({
           errorFetch: true
         });
@@ -100,14 +106,34 @@ class ChirpListContainer extends Component {
       }
     });
   };
+    
+  handleChange = (event) => {
+    this.setState({
+      sortBy: event.target.value
+    }, () => this.fetchChirps())
+  }
+
+  sortByDropdown() {
+    return (
+      <div>
+        <hr/>
+        <label>Chirps sort by:</label>
+        <select value={this.state.sortBy} name="sortby" onChange={this.handleChange}>
+          <option value="r">Recent</option>
+          <option value="t">Top</option>
+        </select>
+      </div>
+    )
+  }
 
   render() {
 
     return (
-      <>
+      <Container>
         <ChirpInput onAddChirp={this.onAddChirp}/>
+        {this.sortByDropdown()}
         <ChirpList chirpList={this.state.chirpList} errorFetch={this.state.errorFetch} currentUser={this.props.currentUser} onToggleUpvotes={this.props.onToggleUpvotes}/>
-      </>
+      </Container>
     );
   }
 }

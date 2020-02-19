@@ -13,6 +13,20 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    this.fetchUsers();
+
+    // retrieve currentUser from local storage if currentUser not found
+    if (!this.props.currentUser.id) {
+
+      let user = ''
+      if (localStorage && localStorage.getItem('user')) {
+        user = JSON.parse(localStorage.getItem('user'));
+      }
+      this.props.onSetCurrentUser(user.id);
+    }
+  }
+  
+  fetchUsers() {
     fetch('http://localhost:3000/api/v1/users', {
       method: 'GET',
       headers: {
@@ -50,23 +64,8 @@ class Home extends Component {
         });
       }
     });
-
-    // retrieve currentUser from local storage if currentUser not found
-    if (!this.props.currentUser.id) {
-
-      let user = ''
-      if (localStorage && localStorage.getItem('user')) {
-        user = JSON.parse(localStorage.getItem('user'));
-      }
-      this.props.onSetCurrentUser(user.id);
-    }
   }
-  
-  handleSubmit = (event) => {
-    event.preventDefault()
-    this.props.onsetCurrentUser(this.state)
-  }
-  
+
   handleChange = (event) => {
     this.props.onSetCurrentUser(event.target.value);
   }
@@ -107,14 +106,12 @@ class Home extends Component {
     } else {
       return (
         <>
-        <Form onSubmit={this.handleSubmit}>
           <Form.Group>
             <Form.Label>Select your name</Form.Label>
             <Form.Control as="select" multiple value={this.state.userList} name="user" onChange={this.handleChange}>
               {this.renderUserList()}
             </Form.Control>
           </Form.Group>
-        </Form>
         </>
       )
     }

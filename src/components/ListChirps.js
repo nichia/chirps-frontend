@@ -78,7 +78,6 @@ const ListChirps = (props) => {
   
   return (
     <div>
-      <h4>Chirps</h4>
       <ul className="list-unstyled">
         {chirpList.map(chirp =>
           <li key={chirp.id}>

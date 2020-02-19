@@ -1,21 +1,21 @@
 import React from 'react';
 import ListChirps from '../components/ListChirps';
-import { Alert, Container } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 const ChirpList = (props) => {
   const { chirpList, errorFetch, currentUser, onToggleUpvotes } = props;
 
   return (
     errorFetch ? (
-        <Container style={{ paddingTop: '30px'}}>
-          <Alert color="danger">
+        <div>
+          <Alert variant="danger">
             Error fetching data from server. Please try again later.
           </Alert>
-        </Container>
+        </div>
       ) : (
-        <Container style={{ paddingTop: '30px'}}>
+        <div>
           <ListChirps chirpList={chirpList} currentUser={currentUser} onToggleUpvotes={onToggleUpvotes}/>
-        </Container>
+        </div>
       )
   )
 }

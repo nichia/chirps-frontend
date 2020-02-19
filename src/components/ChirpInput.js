@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 class ChirpInput extends Component {
  
@@ -23,7 +23,7 @@ class ChirpInput extends Component {
 
   render() {
     return (
-      <Container>
+      <>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>
             <Form.Label>Input chirp text:</Form.Label>
@@ -34,7 +34,7 @@ class ChirpInput extends Component {
           </Form.Group>
           <Button variant="dark" type="submit">Submit</Button>
         </Form>
-      </Container>
+      </>
     )
   }
 }
